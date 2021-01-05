@@ -1,0 +1,15 @@
+/demo
+/examples
+/src
+/e2e
+/test
+prettier.config.js
+rollup.config.js
+tsconfig.json
+
+.gitignore
+.DS_Store
+.idea
+.vscode
+.project
+.tgz
