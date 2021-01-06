@@ -19,23 +19,20 @@
 ```js
 import { WoodpeckerLogger } from 'wp-log';
 const wpLog = new WoodpeckerLogger();
+// 记录本地日志
 wpLog.info('This is a test.');
+// 查询本地日志信息
 wpLog.queryByContent('This is a');
 ```
 
 ### 初始化配置
-提供regex参数以正则匹配待调试JS的path部分，得到待调试目标JS数组后，辅助protocol、host参数以替换成代理服务器JS地址。
-```ascii
-    foo://example.com:8042/over/there?name=ferret#nose
-    \_/   \______________/\_________/ 
-     |           |            |       
-  protocol     host          path    
-```
-- path: 数组类型，表示path匹配规则，遍历数组内对象，使用regex匹配待调试JS，然后以replace(regex, value)的方式尝试替换目标JS。必选参数。
-- protocol: 字符串类型，指定代理后JS地址的协议。如`http:`表示将以http协议从代理服务器上加载JS。可选参数。
-- host: 对象类型，表示将对象key替换为对象value。如`{'example.com': 'log-server.com'}`表示将example.com的JS代理到log-server.com。可选参数。
-- logLevel: 字符串类型，`'debug', 'info', 'warn', 'error', 'silent'`。 默认`'info'`。可选参数。
-- logProvider: logProvider，，默认`window.console`。可选参数。
+
+`new WoodpeckerLogger(options)`实例化时需传入`options`配置，也可不传入任何配置，SDK将启用默认配置。
+- options.appKey: 字符串类型，实例记录日志时会存储的应用名称，用于区分不同应用记录的日志，不传时实例使用$anonymous作为应用名。可选参数。
+- options.bytesQuota: 数值类型，设定客户端可使用的indexDB存储上限，单位为MBytes。不同应用共用存储上限，超出上限后，将启用循环记录功能，自动删除最早的日志。可选参数。
+- options.reportUrl: 字符串类型，传入后report方法将使用该地址作为上报日志的服务器地址，如不传，则需要在调研report时指定该参数。可选参数。
+- options.enableSendBeacon: 布尔类型，开启后启用sendBeacon上报日志。 默认`false`。可选参数。
+- options.debug: 布尔类型，开启后在客户端console控制台打印调试信息。默认`false`。可选参数。
 
 ## 快速上手
 ### 日志记录
@@ -53,9 +50,10 @@ $ npm run e2e
 
 ## 浏览器兼容性
 
-| <img src="./demo/images/chrome.png" width="48px" height="48px" alt="Chrome logo"> | <img src="./demo/images/safari.png" width="48px" height="48px" alt="Safari logo"> | 
-| :--------------------------------------------------------------------------: | :----------------------------------------------------------------------: | 
-|                                    47+ ✔                                     |                                  15+ ✔                                   |
+| <img src="./demo/images/edge.png" alt="IE / Edge" width="24px" height="24px" /><br/>IE / Edge | <img src="./demo/images/firefox.png" alt="Firefox" width="24px" height="24px" /><br/>Firefox | <img src="./demo/images/chrome.png" alt="Chrome" width="24px" height="24px" /><br/>Chrome | <img src="./demo/images/safari.png" alt="Safari" width="24px" height="24px" /><br/>Safari | <img src="./demo/images/safari.png" alt="iOS Safari" width="24px" height="24px" /><br/>iOS Safari | <img src="./demo/images/opera.png" alt="Opera" width="24px" height="24px" /><br/>Opera |
+| --------- | --------- | --------- | --------- | --------- | --------- |
+| IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions| last 2 versions
+
 
 ## 使用许可
 The MIT License (MIT)
