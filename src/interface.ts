@@ -8,21 +8,30 @@ export interface sdkOptions {
   bytesQuota?: number;
   reportUrl?: string;
   enableSendBeacon?: boolean;
-  debug?: boolean;
+  userId?: string;
+  enableConsole?: boolean;
 }
 
-export interface ReportOptions {
-  startDate: string;
-  days: number;
-  deviceId: string;
-  environment: string;
-  extraInfo: string;
+export enum levelEnum {
+  trace = 1,
+  info = 2,
+  warn = 3,
+  error = 4,
+  fatal = 5,
+  assert = 6
 }
 
 export interface LogItem {
+  // 日志内容
   c: string;
-  l: string;
+  // 日志级别
+  l: keyof typeof levelEnum;
+  // 记录时间
   t: number;
+  // 当前页面url
+  ul: string;
+  // 当前用户id
+  ud: string;
 }
 
 export interface LogDB extends DBSchema {

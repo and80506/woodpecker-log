@@ -16,10 +16,14 @@ todoItems.push({ index: 1, value: "learn react", done: false });
 todoItems.push({ index: 2, value: "Go shopping", done: true });
 todoItems.push({ index: 3, value: "buy flowers", done: true });
 
-var wLog = new WoodpeckerLogger({
-  debug: true
+var wpLog = new WoodpeckerLogger({
+  appKey: 'davinci',
+  // 测试环境日志服务器
+  reportUrl: '/api/logs/save',
+  enableConsole: false,
+  bytesQuota: 10 * 1024 * 1024
 });
-window.wLog = wLog;
+window.wpLog = wpLog;
 
 class TodoList extends React.Component {
   render() {
@@ -104,18 +108,21 @@ class TodoApp extends React.Component {
   }
   addItem(todoItem) {
     for(let i = 0; i < 100; i++) {
-      wLog.info(todoItem.newItemValue);
+      // wpLog.info(todoItem.newItemValue);
+      wpLog.info(false, 'dsdsdadfas');
     }
     todoItems.unshift({
       index: todoItems.length + 1,
       value: todoItem.newItemValue,
-      done: false });
+      done: false 
+    });
 
     this.setState({ todoItems: todoItems });
   }
   removeItem(itemIndex) {
     todoItems.splice(itemIndex, 1);
     this.setState({ todoItems: todoItems });
+    wpLog.assert(todoItems.length !== 0, '被清空了');
   }
   markTodoDone(itemIndex) {
     var todo = todoItems[itemIndex];

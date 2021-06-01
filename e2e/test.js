@@ -17,10 +17,10 @@ describe('WoodpeckerLogger', () => {
     it('should attach to the window object', () => {
         assert(window.WoodpeckerLogger, 'window.WoodpeckerLogger is not defined');
     });
-    it('should write log to indexDB', (done) => {
+    it('should write log to indexedDB', (done) => {
         writeLog('test log', done);
     });
-    it('should get log from indexDB', (done) => {
+    it('should get log from indexedDB', (done) => {
         queryLog('test log', done);
     });
 });

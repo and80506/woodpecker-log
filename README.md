@@ -17,7 +17,7 @@
 ## 安装及初始化
 
 ```js
-import { WoodpeckerLogger } from 'wp-log';
+import WoodpeckerLogger from 'wp-log';
 const wpLog = new WoodpeckerLogger();
 // 记录本地日志
 wpLog.info('This is a test.');
@@ -32,11 +32,37 @@ wpLog.queryByContent('This is a');
 - options.bytesQuota: 数值类型，设定客户端可使用的indexDB存储上限，单位为MBytes。不同应用共用存储上限，超出上限后，将启用循环记录功能，自动删除最早的日志。可选参数。
 - options.reportUrl: 字符串类型，传入后report方法将使用该地址作为上报日志的服务器地址，如不传，则需要在调研report时指定该参数。可选参数。
 - options.enableSendBeacon: 布尔类型，开启后启用sendBeacon上报日志。 默认`false`。可选参数。
-- options.debug: 布尔类型，开启后在客户端console控制台打印调试信息。默认`false`。可选参数。
+- options.enableConsole: 布尔类型，开启后在客户端console控制台打印调试信息。默认`false`。可选参数。
 
 ## 快速上手
 ### 日志记录
+
+- 日志分级：trace、info、warn、error、fatal
+  
+    `wpLog.info('This is a test.');`
+
+- 断言程序执行结果：assert
+  
+    `wpLog.assert(assertion === true, 'Assertion failed. Please check stack.')`
+
 ### 日志上报
+
+- 查询最近5天本地存储日志并上报到日志服务器
+    
+    `wpLog.report(-7)`
+
+- 默认先将日志保存到队列，合并或分割后上报，如需立即上报，使用第二参数
+    
+    `wpLog.report(-7, true)`
+
+
+- 只做查询本地日志信息，按发生时间（以天为单位）查询
+    
+    `wpLog.queryByDays(-5)`
+
+- 只做查询本地日志信息，按日志内容查询
+    
+    `wpLog.queryByContent('This is a');`
 
 ## 测试
 运行单测及端到端测试

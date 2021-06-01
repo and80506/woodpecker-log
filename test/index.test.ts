@@ -3,6 +3,9 @@ import WoodpeckerLogger from '../src/index';
 import { sdkOptions } from '../src/interface';
 
 describe('createLogger', () => {
+  beforeAll(() => {
+    WoodpeckerLogger.deleteLogDB();
+  });
   test('should be valid option', () => {
     const createLogger = jest.fn((options: sdkOptions) => {
       return new WoodpeckerLogger(options);
@@ -18,7 +21,7 @@ describe('createLogger', () => {
     createLogger({
       appKey: 'myTestApp',
       reportUrl: 'http://report.com',
-      debug: true
+      enableConsole: true
     });
     expect(createLogger).toHaveReturned();
   });
@@ -38,7 +41,7 @@ describe('writeAndQueryLog', () => {
   let wpLog: any;
   beforeEach(() => {
     // @ts-ignore
-    wpLog = new WoodpeckerLogger();
+    wpLog = new WoodpeckerLogger({ enableConsole: true });
   });
   test('should be success write', async () => {
     const writeResult = await wpLog.info('todoItem.newItemValue');
@@ -46,15 +49,14 @@ describe('writeAndQueryLog', () => {
     const queryResult = await wpLog.queryByContent('todoItem.newItemValue');
     expect(queryResult[0]).toBeTruthy();
   });
-  test('batch store should be success write', (done) => {
+  test('batch store should be success write', async () => {
     // 测试批量写日志，这里是异步执行的，并且没有提供写入成功callback API
+    const promiseArr = [];
     for (let i = 0; i < 5; i++) {
-      wpLog.info('batch store content');
+      promiseArr.push(wpLog.info('batch store content'));
     }
-    setTimeout(() => {
-      const queryResult = wpLog.queryByContent('batch store content');
-      expect(queryResult).resolves.toHaveLength(5);
-      done();
-    }, 1000);
+    await Promise.all(promiseArr);
+    const queryResult = await wpLog.queryByContent('batch store content');
+    expect(queryResult).toHaveLength(5);
   });
 });

@@ -7,12 +7,14 @@ export const M_BYTES = 1024 * 1024;
 export const DAY_MILLISECONDS = 24 * 60 * 60 * 1000;
 export const APP_KEY_ANONYMOUS = '$anonymous';
 export enum ERRORS {
-  ERR_CONFIG_SDK_INIT_OPTION = '[WoodpeckerLog] Invalid option type.',
-  ERR_STORAGE = '[WoodpeckerLog] Log storage not support indexDB or fill full.',
-  ERR_QUERY_DATE_PARAMETER = '[WoodpeckerLog] queryByDate parameter should be a valid date number.',
-  ERR_NOT_SUPPORTED = '[WoodpeckerLog] not supported.'
+  ERR_CONFIG_SDK_INIT_OPTION = 'Invalid option type.',
+  ERR_STORAGE = 'Log storage not support indexDB or fill full.',
+  ERR_QUERY_DATE_PARAMETER = 'days parameter should be a valid number.',
+  ERR_NOT_SUPPORTED = 'not supported.'
 }
 export enum MESSAGES {
-  MESSAGE_LOG_TOTALSIZE = '[WoodpeckerLog] log totalSize %s',
-  MESSAGE_LOG_ITEMS = '[WoodpeckerLog] log items'
+  MESSAGE_REPORT_URL = 'report url is empty',
+  MESSAGE_LOG_CONTENT = 'save log content',
+  MESSAGE_LOG_TOTALSIZE = 'total log size',
+  MESSAGE_LOG_ITEMS = 'query result log items'
 }
